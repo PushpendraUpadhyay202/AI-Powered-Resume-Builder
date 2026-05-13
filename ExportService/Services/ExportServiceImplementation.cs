@@ -91,7 +91,7 @@ namespace ExportService.Services
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial"));
+                    page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Liberation Sans"));
 
                     page.Header().Element(c => ComposeHeader(c, resume, sections, userProfile));
                     page.Content().Element(c => ComposeContent(c, resume, sections, template));
