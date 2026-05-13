@@ -8,7 +8,7 @@ const SERVICES = {
   section:  'https://resume-ai-sections-tt5s.onrender.com',
   template: 'https://resume-ai-templates-fbj8.onrender.com',
   ai:       'https://resume-ai-ai-ewju.onrender.com',
-  export:   'https://resume-ai-export.onrender.com', // Placeholder URL for export
+  export:   'https://resume-ai-export-8i9j.onrender.com',
   payment:  'https://resume-ai-payment.onrender.com',
 };
 
