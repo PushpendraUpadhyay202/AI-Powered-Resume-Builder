@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResumeService.Models
 {
+    [Table("resumes")]
     public class Resume
     {
         [Key]

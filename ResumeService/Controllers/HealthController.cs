@@ -20,7 +20,23 @@ namespace ResumeService.Controllers
             try
             {
                 var canConnect = await _context.Database.CanConnectAsync();
-                return Ok(new { Status = "Healthy", Database = canConnect ? "Connected" : "Disconnected" });
+                
+                string tableStatus = "Unknown";
+                if (canConnect)
+                {
+                    try {
+                        var count = await _context.Resumes.CountAsync();
+                        tableStatus = $"Exists (Count: {count})";
+                    } catch (Exception) {
+                        tableStatus = "Missing (Table not found)";
+                    }
+                }
+
+                return Ok(new { 
+                    Status = "Healthy", 
+                    Database = canConnect ? "Connected" : "Disconnected",
+                    TableStatus = tableStatus
+                });
             }
             catch (Exception ex)
             {

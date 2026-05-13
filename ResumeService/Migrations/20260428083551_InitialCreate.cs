@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,7 +13,7 @@ namespace ResumeService.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Resumes",
+                name: "resumes",
                 columns: table => new
                 {
                     ResumeId = table.Column<int>(type: "integer", nullable: false)
@@ -32,7 +32,7 @@ namespace ResumeService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Resumes", x => x.ResumeId);
+                    table.PrimaryKey("PK_resumes", x => x.ResumeId);
                 });
         }
 
@@ -40,7 +40,7 @@ namespace ResumeService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Resumes");
+                name: "resumes");
         }
     }
 }

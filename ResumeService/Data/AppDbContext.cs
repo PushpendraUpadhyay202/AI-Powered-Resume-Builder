@@ -15,7 +15,7 @@ namespace ResumeService.Data
         {
             base.OnModelCreating(modelBuilder);
             
-            // Any specific configuration can go here
+            modelBuilder.Entity<Resume>().ToTable("resumes");
         }
     }
 }
