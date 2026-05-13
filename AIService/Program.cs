@@ -134,7 +134,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<AIService.Data.AppDbContext>();
+        var context = services.GetRequiredService<AIService.Data.AiDbContext>();
         context.Database.Migrate();
     }
     catch (Exception ex)
