@@ -128,7 +128,7 @@ services:
           envVarKey: Jwt__Key
 
   # 8. Frontend (Static Site)
-  - type: web
+  - type: static
     name: resume-ai-frontend
     runtime: static
     rootDir: resumeai-angular
