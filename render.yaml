@@ -83,7 +83,7 @@ services:
     envVars:
       - key: ConnectionStrings__DefaultConnection
         sync: false
-      - key: GROQ_API_KEY
+      - key: Groq__ApiKey
         sync: false
       - key: Jwt__Key
         sync: false

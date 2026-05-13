@@ -43,7 +43,7 @@ namespace AIService.Controllers
                 int userId = GetUserId();
                 string plan = GetSubscriptionPlan();
                 var result = await _aiService.GenerateSummaryAsync(userId, request.ResumeId, request.Input, plan);
-                return result.Success ? Ok(result) : BadRequest(result);
+                return result.Success ? Ok(result) : BadRequest(new { success = false, message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -59,7 +59,7 @@ namespace AIService.Controllers
                 int userId = GetUserId();
                 string plan = GetSubscriptionPlan();
                 var result = await _aiService.GenerateBulletPointsAsync(userId, request.ResumeId, request.Input, plan);
-                return result.Success ? Ok(result) : BadRequest(result);
+                return result.Success ? Ok(result) : BadRequest(new { success = false, message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -75,7 +75,7 @@ namespace AIService.Controllers
                 int userId = GetUserId();
                 string plan = GetSubscriptionPlan();
                 var result = await _aiService.ImproveSectionAsync(userId, request.ResumeId, request.Input, plan);
-                return result.Success ? Ok(result) : BadRequest(result);
+                return result.Success ? Ok(result) : BadRequest(new { success = false, message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -91,7 +91,7 @@ namespace AIService.Controllers
                 int userId = GetUserId();
                 string plan = GetSubscriptionPlan();
                 var result = await _aiService.CheckAtsAsync(userId, request.ResumeId, request.Input, plan);
-                return result.Success ? Ok(result) : BadRequest(result);
+                return result.Success ? Ok(result) : BadRequest(new { success = false, message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -107,7 +107,7 @@ namespace AIService.Controllers
                 int userId = GetUserId();
                 string plan = GetSubscriptionPlan();
                 var result = await _aiService.SuggestSkillsAsync(userId, request.ResumeId, request.Input, plan);
-                return result.Success ? Ok(result) : BadRequest(result);
+                return result.Success ? Ok(result) : BadRequest(new { success = false, message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {

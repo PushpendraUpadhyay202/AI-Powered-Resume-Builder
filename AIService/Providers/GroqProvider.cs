@@ -20,7 +20,7 @@ namespace AIService.Providers
         {
             _httpClient = httpClient;
             _logger = logger;
-            _apiKey = configuration["Groq:ApiKey"] ?? string.Empty;
+            _apiKey = configuration["Groq:ApiKey"] ?? configuration["GROQ_API_KEY"] ?? string.Empty;
 
             if (string.IsNullOrEmpty(_apiKey))
             {
