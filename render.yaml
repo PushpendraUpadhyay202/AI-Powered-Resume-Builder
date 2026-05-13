@@ -130,7 +130,6 @@ services:
   # 8. Frontend (Static Site)
   - type: static
     name: resume-ai-frontend
-    runtime: static
     rootDir: resumeai-angular
     buildCommand: npm install && npm run build
     publishDir: dist/resumeai-angular/browser
