@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Angular
+node_modules/
+dist/
+.angular/
+.vscode/
+
+# Environment
+appsettings.Development.json
+*.log
+.DS_Store

@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    background-color: #0a0a1a;
+    color: #e8e8f0;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #131327; }
+  ::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #5a5a9a; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#e8b422] hover:bg-[#f0c040] text-[#0a0a1a] font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 text-sm tracking-wide cursor-pointer;
+  }
+  .btn-secondary {
+    @apply border border-[#2a2a4a] hover:border-[#4a4a7a] text-[#c0c0d8] hover:text-white font-medium px-5 py-2.5 rounded-lg transition-all duration-200 text-sm cursor-pointer;
+  }
+  .btn-ghost {
+    @apply hover:bg-[#1a1a33] text-[#a0a0c0] hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 text-sm cursor-pointer;
+  }
+  .btn-danger {
+    @apply bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 hover:border-rose-500/40 font-medium px-4 py-2 rounded-lg transition-all duration-200 text-sm cursor-pointer;
+  }
+  .card {
+    @apply bg-[#131327]/60 border border-[#1a1a33]/60 rounded-xl backdrop-blur-sm;
+  }
+  .input-field {
+    @apply w-full bg-[#131327]/80 border border-[#2a2a4a] focus:border-[#e8b422]/60 focus:ring-1 focus:ring-[#e8b422]/20 outline-none text-[#e0e0f0] placeholder-[#7070a0] rounded-lg px-4 py-2.5 text-sm transition-all duration-200;
+  }
+  .label {
+    @apply text-xs font-medium text-[#a0a0c0] uppercase tracking-widest mb-1.5 block;
+  }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-slide-up { animation: slideUp 0.3s ease forwards; }
+.animate-fade-in { animation: fadeIn 0.3s ease forwards; }

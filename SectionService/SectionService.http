@@ -1,0 +1,106 @@
+@SectionService_HostAddress = http://localhost:5226
+
+### 1. Add a new section (SUMMARY)
+# @name createSummary
+POST {{SectionService_HostAddress}}/api/sections
+Content-Type: application/json
+
+{
+  "resumeId": 1,
+  "sectionType": "SUMMARY",
+  "title": "Professional Summary",
+  "content": "Experienced software engineer with a passion for building scalable web applications."
+}
+
+###
+
+### 2. Add another section (EXPERIENCE)
+# @name createExperience
+POST {{SectionService_HostAddress}}/api/sections
+Content-Type: application/json
+
+{
+  "resumeId": 1,
+  "sectionType": "EXPERIENCE",
+  "title": "Work Experience",
+  "content": "Software Engineer at TechCorp"
+}
+
+###
+
+### 3. Get all sections for a resume
+GET {{SectionService_HostAddress}}/api/sections/resume/1
+Accept: application/json
+
+###
+
+### 4. Get a specific section by ID
+@sectionId = {{createSummary.response.body.data.sectionId}}
+GET {{SectionService_HostAddress}}/api/sections/{{sectionId}}
+Accept: application/json
+
+###
+
+### 5. Get sections by type (SUMMARY)
+GET {{SectionService_HostAddress}}/api/sections/type/1/SUMMARY
+Accept: application/json
+
+###
+
+### 6. Update a section
+PUT {{SectionService_HostAddress}}/api/sections/{{sectionId}}
+Content-Type: application/json
+
+{
+  "sectionType": "SUMMARY",
+  "title": "Updated Summary",
+  "content": "Updated content: Experienced software engineer."
+}
+
+###
+
+### 7. Toggle visibility of a section
+PUT {{SectionService_HostAddress}}/api/sections/toggle/{{sectionId}}
+Accept: application/json
+
+###
+
+### 8. Reorder sections
+# Assuming section IDs 1 and 2 exist for resumeId 1
+PUT {{SectionService_HostAddress}}/api/sections/reorder/1
+Content-Type: application/json
+
+[2, 1]
+
+###
+
+### 9. Bulk update sections
+PUT {{SectionService_HostAddress}}/api/sections/bulk/1
+Content-Type: application/json
+
+[
+  {
+    "sectionId": 1,
+    "title": "Bulk Updated Summary",
+    "content": "Content updated via bulk.",
+    "isVisible": true
+  },
+  {
+    "sectionId": 2,
+    "title": "Bulk Updated Experience",
+    "content": "Content updated via bulk.",
+    "isVisible": true
+  }
+]
+
+###
+
+### 10. Delete a specific section
+DELETE {{SectionService_HostAddress}}/api/sections/{{sectionId}}
+Accept: application/json
+
+###
+
+### 11. Delete all sections for a resume
+DELETE {{SectionService_HostAddress}}/api/sections/resume/1
+Accept: application/json

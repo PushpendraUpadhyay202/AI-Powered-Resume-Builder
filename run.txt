@@ -1,0 +1,18 @@
+# Auth Service
+dotnet run --project AuthService
+# Resume Service
+dotnet run --project ResumeService
+# Section Service
+dotnet run --project SectionService
+# Template Service
+dotnet run --project TemplateService
+# AI Service
+dotnet run --project AIService
+# Export Service
+dotnet run --project ExportService
+# Payment Service (New)
+dotnet run --project PaymentService
+
+
+cd resumeai-angular
+npm start
