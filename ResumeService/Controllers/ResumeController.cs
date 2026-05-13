@@ -81,7 +81,7 @@ namespace ResumeService.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ApiResponse<object>.Error("An error occurred while retrieving user resumes: " + ex.Message));
+                return StatusCode(500, ApiResponse<object>.Error("An error occurred while retrieving user resumes: " + ex.Message, ex.ToString()));
             }
         }
 
