@@ -1,19 +1,10 @@
 services:
-  # 1. Frontend (Static Site)
-  - type: static
-    name: resume-ai-frontend
-    rootDir: resumeai-angular
-    buildCommand: npm install && npm run build
-    publishDir: dist/resumeai-angular/browser
-    envVars:
-      - key: NODE_VERSION
-        value: 20
-
-  # 2. Auth Service
+  # 🔐 Auth Service
   - type: web
-    name: auth-service
-    runtime: docker
-    rootDir: AuthService
+    name: resume-ai-auth
+    env: docker
+    dockerContext: ./AuthService
+    dockerfilePath: ./AuthService/Dockerfile
     plan: free
     envVars:
       - key: ConnectionStrings__DefaultConnection
@@ -29,56 +20,60 @@ services:
       - key: Authentication__Google__ClientSecret
         sync: false
 
-  # 3. Resume Service
+  # 📄 Resume Service
   - type: web
-    name: resume-service
-    runtime: docker
-    rootDir: ResumeService
+    name: resume-ai-resumes
+    env: docker
+    dockerContext: ./ResumeService
+    dockerfilePath: ./ResumeService/Dockerfile
     plan: free
     envVars:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
 
-  # 4. Section Service
+  # 🧩 Section Service
   - type: web
-    name: section-service
-    runtime: docker
-    rootDir: SectionService
+    name: resume-ai-sections
+    env: docker
+    dockerContext: ./SectionService
+    dockerfilePath: ./SectionService/Dockerfile
     plan: free
     envVars:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
 
-  # 5. Template Service
+  # 🎨 Template Service
   - type: web
-    name: template-service
-    runtime: docker
-    rootDir: TemplateService
+    name: resume-ai-templates
+    env: docker
+    dockerContext: ./TemplateService
+    dockerfilePath: ./TemplateService/Dockerfile
     plan: free
     envVars:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
 
-  # 6. AI Service
+  # 🤖 AI Service
   - type: web
-    name: ai-service
-    runtime: docker
-    rootDir: AIService
+    name: resume-ai-ai
+    env: docker
+    dockerContext: ./AIService
+    dockerfilePath: ./AIService/Dockerfile
     plan: free
     envVars:
       - key: ConnectionStrings__DefaultConnection
@@ -87,52 +82,62 @@ services:
         sync: false
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
 
-  # 7. Export Service
+  # 📤 Export Service
   - type: web
-    name: export-service
-    runtime: docker
-    rootDir: ExportService
+    name: resume-ai-export
+    env: docker
+    dockerContext: ./ExportService
+    dockerfilePath: ./ExportService/Dockerfile
     plan: free
     envVars:
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
       - key: Services__ResumeService
         fromService:
-          name: resume-service
+          name: resume-ai-resumes
           type: web
           property: host
       - key: Services__TemplateService
         fromService:
-          name: template-service
+          name: resume-ai-templates
           type: web
           property: host
       - key: Services__SectionService
         fromService:
-          name: section-service
+          name: resume-ai-sections
           type: web
           property: host
       - key: Services__AuthService
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           property: host
 
-  # 8. Payment Service
+  # 🚦 Payment Service
   - type: web
-    name: payment-service
-    runtime: docker
-    rootDir: PaymentService
+    name: resume-ai-payment
+    env: docker
+    dockerContext: ./PaymentService
+    dockerfilePath: ./PaymentService/Dockerfile
     plan: free
     envVars:
       - key: Jwt__Key
         fromService:
-          name: auth-service
+          name: resume-ai-auth
           type: web
           envVarKey: Jwt__Key
+
+  # 🌐 Frontend (Angular Docker Service)
+  - type: web
+    name: resume-ai-ui
+    env: docker
+    dockerContext: ./resumeai-angular
+    dockerfilePath: ./resumeai-angular/Dockerfile
+    plan: free
