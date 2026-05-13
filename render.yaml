@@ -10,7 +10,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
-        generateValue: true
+        sync: false
       - key: Jwt__Issuer
         value: ResumeAI
       - key: Jwt__Audience
@@ -31,10 +31,9 @@ services:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
+      - key: Services__AuthService
+        value: https://resume-ai-auth-f9dh.onrender.com
 
   # 🧩 Section Service
   - type: web
@@ -47,10 +46,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
 
   # 🎨 Template Service
   - type: web
@@ -63,10 +59,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         sync: false
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
 
   # 🤖 AI Service
   - type: web
@@ -81,10 +74,7 @@ services:
       - key: GROQ_API_KEY
         sync: false
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
 
   # 📤 Export Service
   - type: web
@@ -95,30 +85,15 @@ services:
     plan: free
     envVars:
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
       - key: Services__ResumeService
-        fromService:
-          name: resume-ai-resumes
-          type: web
-          property: host
+        value: https://resume-ai-resumes-rzy2.onrender.com
       - key: Services__TemplateService
-        fromService:
-          name: resume-ai-templates
-          type: web
-          property: host
+        value: https://resume-ai-templates-fbj8.onrender.com
       - key: Services__SectionService
-        fromService:
-          name: resume-ai-sections
-          type: web
-          property: host
+        value: https://resume-ai-sections-tt5s.onrender.com
       - key: Services__AuthService
-        fromService:
-          name: resume-ai-auth
-          type: web
-          property: host
+        value: https://resume-ai-auth-f9dh.onrender.com
 
   # 🚦 Payment Service
   - type: web
@@ -129,10 +104,13 @@ services:
     plan: free
     envVars:
       - key: Jwt__Key
-        fromService:
-          name: resume-ai-auth
-          type: web
-          envVarKey: Jwt__Key
+        sync: false
+      - key: Razorpay__KeyId
+        sync: false
+      - key: Razorpay__KeySecret
+        sync: false
+      - key: Services__AuthService
+        value: https://resume-ai-auth-f9dh.onrender.com
 
   # 🌐 Frontend (Angular Docker Service)
   - type: web
