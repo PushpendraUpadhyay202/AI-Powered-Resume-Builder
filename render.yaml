@@ -1,0 +1,139 @@
+services:
+  # 1. Auth Service
+  - type: web
+    name: auth-service
+    runtime: docker
+    rootDir: AuthService
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
+      - key: Authentication__Google__ClientId
+        sync: false
+      - key: Authentication__Google__ClientSecret
+        sync: false
+
+  # 2. Resume Service
+  - type: web
+    name: resume-service
+    runtime: docker
+    rootDir: ResumeService
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+
+  # 3. Section Service
+  - type: web
+    name: section-service
+    runtime: docker
+    rootDir: SectionService
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+
+  # 4. Template Service
+  - type: web
+    name: template-service
+    runtime: docker
+    rootDir: TemplateService
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+
+  # 5. AI Service
+  - type: web
+    name: ai-service
+    runtime: docker
+    rootDir: AIService
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+
+  # 6. Export Service
+  - type: web
+    name: export-service
+    runtime: docker
+    rootDir: ExportService
+    plan: free
+    envVars:
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+      - key: Services__ResumeService
+        fromService:
+          name: resume-service
+          type: web
+          property: host
+      - key: Services__TemplateService
+        fromService:
+          name: template-service
+          type: web
+          property: host
+      - key: Services__SectionService
+        fromService:
+          name: section-service
+          type: web
+          property: host
+      - key: Services__AuthService
+        fromService:
+          name: auth-service
+          type: web
+          property: host
+
+  # 7. Payment Service
+  - type: web
+    name: payment-service
+    runtime: docker
+    rootDir: PaymentService
+    plan: free
+    envVars:
+      - key: Jwt__Key
+        fromService:
+          name: auth-service
+          type: web
+          envVarKey: Jwt__Key
+
+  # 8. Frontend (Static Site)
+  - type: web
+    name: resume-ai-frontend
+    runtime: static
+    rootDir: resumeai-angular
+    buildCommand: npm install && npm run build
+    publishDir: dist/resumeai-angular/browser
+    envVars:
+      - key: NODE_VERSION
+        value: 20
