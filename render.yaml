@@ -1,5 +1,15 @@
 services:
-  # 1. Auth Service
+  # 1. Frontend (Static Site)
+  - type: static
+    name: resume-ai-frontend
+    rootDir: resumeai-angular
+    buildCommand: npm install && npm run build
+    publishDir: dist/resumeai-angular/browser
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+
+  # 2. Auth Service
   - type: web
     name: auth-service
     runtime: docker
@@ -19,7 +29,7 @@ services:
       - key: Authentication__Google__ClientSecret
         sync: false
 
-  # 2. Resume Service
+  # 3. Resume Service
   - type: web
     name: resume-service
     runtime: docker
@@ -34,7 +44,7 @@ services:
           type: web
           envVarKey: Jwt__Key
 
-  # 3. Section Service
+  # 4. Section Service
   - type: web
     name: section-service
     runtime: docker
@@ -49,7 +59,7 @@ services:
           type: web
           envVarKey: Jwt__Key
 
-  # 4. Template Service
+  # 5. Template Service
   - type: web
     name: template-service
     runtime: docker
@@ -64,7 +74,7 @@ services:
           type: web
           envVarKey: Jwt__Key
 
-  # 5. AI Service
+  # 6. AI Service
   - type: web
     name: ai-service
     runtime: docker
@@ -81,7 +91,7 @@ services:
           type: web
           envVarKey: Jwt__Key
 
-  # 6. Export Service
+  # 7. Export Service
   - type: web
     name: export-service
     runtime: docker
@@ -114,7 +124,7 @@ services:
           type: web
           property: host
 
-  # 7. Payment Service
+  # 8. Payment Service
   - type: web
     name: payment-service
     runtime: docker
@@ -126,14 +136,3 @@ services:
           name: auth-service
           type: web
           envVarKey: Jwt__Key
-
-  # 8. Frontend (Static Site) - Alternative Syntax
-  - type: web
-    name: resume-ai-frontend
-    env: static
-    rootDir: resumeai-angular
-    buildCommand: npm install && npm run build
-    staticPublishDir: dist/resumeai-angular/browser
-    envVars:
-      - key: NODE_VERSION
-        value: 20
