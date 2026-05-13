@@ -34,6 +34,10 @@ services:
         sync: false
       - key: Services__AuthService
         value: https://resume-ai-auth-f9dh.onrender.com
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 🧩 Section Service
   - type: web
@@ -47,6 +51,10 @@ services:
         sync: false
       - key: Jwt__Key
         sync: false
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 🎨 Template Service
   - type: web
@@ -60,6 +68,10 @@ services:
         sync: false
       - key: Jwt__Key
         sync: false
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 🤖 AI Service
   - type: web
@@ -75,6 +87,10 @@ services:
         sync: false
       - key: Jwt__Key
         sync: false
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 📤 Export Service
   - type: web
@@ -94,6 +110,10 @@ services:
         value: https://resume-ai-sections-tt5s.onrender.com
       - key: Services__AuthService
         value: https://resume-ai-auth-f9dh.onrender.com
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 🚦 Payment Service
   - type: web
@@ -111,6 +131,10 @@ services:
         sync: false
       - key: Services__AuthService
         value: https://resume-ai-auth-f9dh.onrender.com
+      - key: Jwt__Issuer
+        value: ResumeAI
+      - key: Jwt__Audience
+        value: ResumeAI
 
   # 🌐 Frontend (Angular Docker Service)
   - type: web

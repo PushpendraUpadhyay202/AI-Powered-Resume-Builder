@@ -57,8 +57,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "https://localhost:5001",
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "https://localhost:5001",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "ResumeAI",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "ResumeAI",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "default_super_secret_key_needs_to_be_long_enough_for_hmac_sha256"))
         };
     });

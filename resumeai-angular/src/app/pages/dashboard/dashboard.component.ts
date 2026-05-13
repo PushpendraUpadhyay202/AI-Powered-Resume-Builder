@@ -161,7 +161,8 @@ export class DashboardComponent implements OnInit {
       ]);
       this.store.setResumes(Array.isArray(resumeData) ? resumeData : []);
       this.templateStore.setTemplates(Array.isArray(templateData) ? templateData : []);
-    } catch {
+    } catch (err) {
+      console.error('Dashboard initialization error:', err);
       this.toast.error('Failed to load data');
     } finally {
       this.loading.set(false);
