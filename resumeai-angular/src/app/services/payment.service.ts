@@ -9,7 +9,7 @@ declare var Razorpay: any;
 })
 export class PaymentService {
   private auth = inject(AuthService);
-  private apiUrl = 'http://localhost:5099/api/payment';
+  private apiUrl = 'https://resume-ai-payment.onrender.com/api/payment';
 
   private async getClient() {
     const client = axios.create({ baseURL: this.apiUrl });
