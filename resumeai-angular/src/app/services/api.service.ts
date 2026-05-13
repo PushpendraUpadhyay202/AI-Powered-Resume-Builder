@@ -3,12 +3,13 @@ import axios, { AxiosInstance } from 'axios';
 import { AuthService } from './auth.service';
 
 const SERVICES = {
-  auth:     'http://localhost:5259',
-  resume:   'http://localhost:5002',
-  section:  'http://localhost:5226',
-  template: 'http://localhost:5285',
-  ai:       'http://localhost:5037',
-  export:   'http://localhost:5066',
+  auth:     'https://resume-ai-auth-f9dh.onrender.com',
+  resume:   'https://resume-ai-resumes-rzy2.onrender.com',
+  section:  'https://resume-ai-sections-tt5s.onrender.com',
+  template: 'https://resume-ai-templates-fbj8.onrender.com',
+  ai:       'https://resume-ai-ai-ewju.onrender.com',
+  export:   'https://resume-ai-export.onrender.com', // Placeholder URL for export
+  payment:  'https://resume-ai-payment.onrender.com',
 };
 
 @Injectable({ providedIn: 'root' })
