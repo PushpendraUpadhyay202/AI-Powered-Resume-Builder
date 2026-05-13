@@ -13,7 +13,6 @@ namespace ResumeService.Models
         [Required]
         public string Title { get; set; } = string.Empty;
 
-        [Required]
         public string TargetJobTitle { get; set; } = string.Empty;
 
         public int TemplateId { get; set; }
