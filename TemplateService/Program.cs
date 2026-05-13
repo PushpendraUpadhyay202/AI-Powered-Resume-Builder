@@ -125,5 +125,24 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Automatic Migrations
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<TemplateService.Data.TemplateDbContext>();
+        context.Database.Migrate();
+        
+        // Seed initial templates
+        TemplateService.Data.DbInitializer.Initialize(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
+
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 app.Run($"http://0.0.0.0:{port}");
