@@ -127,12 +127,13 @@ services:
           type: web
           envVarKey: Jwt__Key
 
-  # 8. Frontend (Static Site)
-  - type: static
+  # 8. Frontend (Static Site) - Alternative Syntax
+  - type: web
     name: resume-ai-frontend
+    env: static
     rootDir: resumeai-angular
     buildCommand: npm install && npm run build
-    publishDir: dist/resumeai-angular/browser
+    staticPublishDir: dist/resumeai-angular/browser
     envVars:
       - key: NODE_VERSION
         value: 20
