@@ -126,9 +126,9 @@ services:
       - key: Jwt__Key
         sync: false
       - key: Razorpay__KeyId
-        sync: false
+        value: rzp_test_Sp7sHJXRWO4Jm1
       - key: Razorpay__KeySecret
-        sync: false
+        value: u446eUrEP91ugBeL83EZnsCb
       - key: Services__AuthService
         value: https://resume-ai-auth-f9dh.onrender.com
       - key: Jwt__Issuer
