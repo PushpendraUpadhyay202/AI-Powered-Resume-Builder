@@ -60,6 +60,13 @@ import { Section } from '../../models';
 
         <!-- Actions -->
         <div class="flex items-center gap-2">
+          @if (store.currentResume()?.atsScore && store.currentResume()?.status === 'COMPLETE') {
+            <div class="hidden sm:flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#131327] border border-[#2a2a4a]/60 mr-1" 
+                 [class]="atsColor(store.currentResume()!.atsScore!)"
+                 title="ATS Score">
+              📈 {{ store.currentResume()?.atsScore }}%
+            </div>
+          }
           <button (click)="showTemplateSwitcher.set(true)" class="btn-ghost flex items-center gap-1.5 text-xs">
             ◧ <span class="hidden sm:block">Template</span>
           </button>
@@ -260,6 +267,16 @@ export class EditorComponent implements OnInit, OnDestroy {
         displayOrder: idx,
       }));
       await this.api.section.bulkUpdate(this.store.currentResume()!.resumeId, payload);
+      
+      const currentResume = this.store.currentResume()!;
+      if (currentResume.status === 'COMPLETE') {
+        const newScore = this.calculateAtsScore();
+        if (currentResume.atsScore !== newScore) {
+          await this.api.resume.update(currentResume.resumeId, { ...currentResume, atsScore: newScore });
+          this.store.updateCurrentResume({ atsScore: newScore });
+        }
+      }
+
       this.store.markClean();
     } catch { 
       this.toast.error('Auto-save failed'); 
@@ -316,8 +333,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (!resume) return;
     const newStatus = resume.status === 'COMPLETE' ? 'DRAFT' : 'COMPLETE';
     try {
-      await this.api.resume.update(resume.resumeId, { ...resume, status: newStatus });
-      this.store.updateCurrentResume({ status: newStatus });
+      let updatePayload: any = { ...resume, status: newStatus };
+      if (newStatus === 'COMPLETE') {
+        updatePayload.atsScore = this.calculateAtsScore();
+      }
+      await this.api.resume.update(resume.resumeId, updatePayload);
+      this.store.updateCurrentResume(updatePayload);
       this.toast.success(`Marked as ${newStatus}`);
     } catch { this.toast.error('Failed to update status'); }
   }
@@ -341,5 +362,32 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.aiTarget?.sectionId) {
       this.store.updateSection(this.aiTarget.sectionId, { content: { summary: output } });
     }
+  }
+
+  private calculateAtsScore(): number {
+    const sections = this.store.sections();
+    if (!sections || sections.length === 0) return 0;
+    
+    let score = 30; // Base score
+    const types = sections.map(s => s.sectionType);
+    
+    if (types.includes('SUMMARY')) score += 10;
+    if (types.includes('EXPERIENCE')) score += 20;
+    if (types.includes('EDUCATION')) score += 15;
+    if (types.includes('SKILLS')) score += 15;
+    if (types.includes('PROJECTS')) score += 10;
+    
+    // Calculate length of all content
+    const contentStr = sections.map(s => JSON.stringify(s.content)).join(' ');
+    if (contentStr.length > 500) score += 5;
+    if (contentStr.length > 1000) score += 5;
+    
+    return Math.min(100, score);
+  }
+
+  atsColor(score: number): string {
+    if (score >= 80) return 'text-[#22c76a]';
+    if (score >= 60) return 'text-[#f0c040]';
+    return 'text-rose-400';
   }
 }
