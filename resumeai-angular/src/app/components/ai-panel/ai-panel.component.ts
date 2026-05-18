@@ -91,7 +91,7 @@ import { ToastService } from '../../services/toast.service';
 export class AiPanelComponent implements OnInit {
   @Input() targetSection: any = null;
   @Output() close = new EventEmitter<void>();
-  @Output() apply$ = new EventEmitter<string>();
+  @Output() apply$ = new EventEmitter<{ output: string; mode: string }>();
 
   private api = inject(ApiService);
   private resumeStore = inject(ResumeStoreService);
@@ -143,7 +143,7 @@ export class AiPanelComponent implements OnInit {
 
   apply() {
     if (!this.output()) return;
-    this.apply$.emit(this.output());
+    this.apply$.emit({ output: this.output(), mode: this.mode() });
     this.toast.success('AI content applied!');
     this.close.emit();
   }
