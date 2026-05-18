@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -27,6 +28,17 @@ export const routes: Routes = [
     path: 'editor/:resumeId',
     loadComponent: () => import('./pages/editor/editor.component').then(m => m.EditorComponent),
     canActivate: [authGuard]
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./pages/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
+    canActivate: [authGuard, adminGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', loadComponent: () => import('./pages/admin/dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent) },
+      { path: 'users', loadComponent: () => import('./pages/admin/users/users.component').then(m => m.UsersAdminComponent) },
+      { path: 'templates', loadComponent: () => import('./pages/admin/templates/templates-admin.component').then(m => m.TemplatesAdminComponent) }
+    ]
   },
   { path: '**', redirectTo: '/dashboard' }
 ];

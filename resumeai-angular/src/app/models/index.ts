@@ -4,6 +4,26 @@ export interface User {
   fullName?: string;
   phone?: string;
   subscriptionPlan?: string;
+  role?: string;
+  provider?: string;
+}
+
+export interface AdminOverview {
+  totalUsers: number;
+  premiumUsers: number;
+  freeUsers: number;
+  localUsers: number;
+  googleUsers: number;
+}
+
+export interface AdminUserDto {
+  id: number;
+  fullName: string;
+  email: string;
+  role: string;
+  subscriptionPlan: string;
+  provider: string;
+  phoneNumber: string;
 }
 
 export interface AuthState {

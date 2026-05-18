@@ -94,6 +94,9 @@ export class ApiService {
     get:  (id: any) => this.templateClient.get(`/api/templates/${id}`).then(r => this.unwrap(r)),
     getByCategory: (cat: string) => this.templateClient.get(`/api/templates/category/${cat}`).then(r => this.unwrap(r)),
     incrementUsage: (id: any) => this.templateClient.put(`/api/templates/use/${id}`).then(r => this.unwrap(r)),
+    create: (body: any) => this.templateClient.post('/api/templates', body).then(r => this.unwrap(r)),
+    update: (id: any, body: any) => this.templateClient.put(`/api/templates/${id}`, body).then(r => this.unwrap(r)),
+    deactivate: (id: any) => this.templateClient.put(`/api/templates/deactivate/${id}`).then(r => this.unwrap(r)),
   };
 
   // AI API
@@ -103,6 +106,14 @@ export class ApiService {
     improve:         (body: any) => this.aiClient.post('/api/ai/improve-section', body).then(r => this.unwrap(r)),
     checkAts:        (body: any) => this.aiClient.post('/api/ai/check-ats', body).then(r => this.unwrap(r)),
     quota:           ()          => this.aiClient.get('/api/ai/quota').then(r => this.unwrap(r)),
+  };
+
+  // Admin API
+  readonly admin = {
+    overview: () => this.authClient.get('/api/admin/overview').then(r => r.data),
+    users: () => this.authClient.get('/api/admin/users').then(r => r.data),
+    userDetails: (id: any) => this.authClient.get(`/api/admin/users/${id}`).then(r => r.data),
+    deleteUser: (id: any) => this.authClient.delete(`/api/admin/users/${id}`).then(r => r.data),
   };
 
   // Export API
