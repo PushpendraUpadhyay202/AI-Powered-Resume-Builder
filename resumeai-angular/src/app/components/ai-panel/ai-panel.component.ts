@@ -107,7 +107,6 @@ export class AiPanelComponent implements OnInit {
     { id: 'SUMMARY', label: 'Summary' },
     { id: 'BULLETS', label: 'Bullets' },
     { id: 'IMPROVE', label: 'Improve' },
-    { id: 'ATS', label: 'ATS Check' },
   ];
 
   ngOnInit() {
@@ -133,7 +132,6 @@ export class AiPanelComponent implements OnInit {
       if (m === 'SUMMARY') result = await this.api.ai.generateSummary(payload);
       else if (m === 'BULLETS') result = await this.api.ai.generateBullets(payload);
       else if (m === 'IMPROVE') result = await this.api.ai.improve(payload);
-      else if (m === 'ATS') result = await this.api.ai.checkAts(payload);
       this.output.set(result);
       this.api.ai.quota().then(q => this.ui.setAiQuota(q)).catch(() => {});
     } catch (err: any) {

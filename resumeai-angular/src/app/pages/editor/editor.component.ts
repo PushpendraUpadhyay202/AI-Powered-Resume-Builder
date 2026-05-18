@@ -60,13 +60,6 @@ import { Section } from '../../models';
 
         <!-- Actions -->
         <div class="flex items-center gap-2">
-          @if (store.currentResume()) {
-            <div class="hidden sm:flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#131327] border border-[#2a2a4a]/60 mr-1" 
-                 [class]="atsColor(store.currentResume()!.atsScore || 0)"
-                 title="ATS Score">
-              📈 {{ store.currentResume()?.atsScore || 0 }}%
-            </div>
-          }
           <button (click)="showTemplateSwitcher.set(true)" class="btn-ghost flex items-center gap-1.5 text-xs">
             ◧ <span class="hidden sm:block">Template</span>
           </button>
@@ -345,38 +338,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   async handleAiApply(event: { output: string; mode: string }) {
-    if (event.mode === 'ATS') {
-      let scoreMatch = event.output.match(/(?:score[:\s]*|)(\d{1,3})(?:\s*\/100|%)/i);
-      let score = 0;
-      if (scoreMatch && scoreMatch[1]) {
-        score = parseInt(scoreMatch[1], 10);
-      } else {
-        const fallbackMatch = event.output.match(/\b([1-9][0-9]|100)\b/);
-        if (fallbackMatch) {
-          score = parseInt(fallbackMatch[1], 10);
-        }
-      }
-
-      const currentResume = this.store.currentResume();
-      if (currentResume && score > 0 && score <= 100) {
-        try {
-          await this.api.resume.update(currentResume.resumeId, { ...currentResume, atsScore: score });
-          this.store.updateCurrentResume({ atsScore: score });
-          this.toast.success(`ATS Score updated to ${score}%`);
-        } catch {
-          this.toast.error('Failed to update ATS score');
-        }
-      } else {
-        this.toast.error('Could not parse score from AI output');
-      }
-    } else if (this.aiTarget?.sectionId) {
+    if (this.aiTarget?.sectionId && this.aiTarget?.sectionType === 'SUMMARY') {
       this.store.updateSection(this.aiTarget.sectionId, { content: { summary: event.output } });
     }
-  }
-
-  atsColor(score: number): string {
-    if (score >= 80) return 'text-[#22c76a]';
-    if (score >= 60) return 'text-[#f0c040]';
-    return 'text-rose-400';
   }
 }

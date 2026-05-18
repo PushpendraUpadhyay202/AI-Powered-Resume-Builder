@@ -80,11 +80,6 @@ import { NewResumeModalComponent } from '../../components/new-resume-modal/new-r
                     <span class="text-[10px] text-[#22c76a] font-medium">Public</span>
                   </div>
                 }
-                @if (resume.atsScore) {
-                  <div class="absolute top-2 left-2 flex items-center gap-1 bg-[#131327]/80 rounded-full px-2 py-0.5 border border-[#2a2a4a]/60">
-                    <span class="text-[10px] font-mono font-bold" [class]="atsColor(resume.atsScore)">{{ resume.atsScore }}</span>
-                  </div>
-                }
               </div>
 
               <div class="p-5">
@@ -141,13 +136,9 @@ export class DashboardComponent implements OnInit {
   stats = computed(() => {
     const resumes = this.store.resumes();
     const completed = resumes.filter(r => r.status === 'COMPLETE');
-    const avg = completed.length
-      ? Math.round(completed.reduce((a, r) => a + (r.atsScore || 0), 0) / completed.length)
-      : null;
     return [
       { label: 'Total Resumes', value: resumes.length, icon: '📄' },
       { label: 'Completed', value: completed.length, icon: '✅' },
-      { label: 'Avg ATS Score', value: avg !== null ? avg + '%' : '—', icon: '📈' },
     ];
   });
 
@@ -170,12 +161,6 @@ export class DashboardComponent implements OnInit {
   }
 
   openEditor(id: number) { this.router.navigate(['/editor', id]); }
-
-  atsColor(score: number): string {
-    if (score >= 80) return 'text-[#22c76a]';
-    if (score >= 60) return 'text-[#f0c040]';
-    return 'text-rose-400';
-  }
 
   formatDate(iso?: string): string {
     if (!iso) return '';
